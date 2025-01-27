@@ -1,23 +1,17 @@
 const express = require('express')
-const expressHandlebars = require('express-handlebars')
+const { engine } = require('express-handlebars');
 
 const app = express()
 
 const PORT = process.env.PORT || 3000;
-
-app.engine('handlebars', expressHandlebars({
+//configure handlebars views engine
+app.engine('handlebars', engine({
     defaultLayout: 'main',
 }))
 app.set('view engine', 'handlebars')
 
-app.get("/", (req, res)=> {
-    res.type("text/plain")
-    res.send("Welcome to the home page")
-})
-app.get("/about", (req, res)=> {
-    res.type("text/plain")
-    res.send("About page")
-})
+app.get("/", (req, res) => res.render("home"))
+app.get("/about", (req, res) => res.render("about"))
 //custom 404
 app.use((req, res)=> {
     res.type('text/plain')
