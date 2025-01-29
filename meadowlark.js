@@ -4,6 +4,7 @@ const { engine } = require('express-handlebars');
 const app = express()
 
 const PORT = process.env.PORT || 3000;
+const fortune = require('./lib/fortune')
 app.use(express.static(__dirname + '/public'))
 
 //configure handlebars views engine
@@ -14,7 +15,9 @@ app.set('view engine', 'handlebars')
 
 
 app.get("/", (req, res) => res.render("home"))
-app.get("/about", (req, res) => res.render("about"))
+app.get("/about", (req, res) => {
+    res.render("about", {fortune: fortune.getFortune()})
+})
 //custom 404
 app.use((req, res)=> {
     res.type('text/plain')
